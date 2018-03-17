@@ -31,6 +31,11 @@ public class CharController2D : MonoBehaviour {
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+        if (transform.position.x < -3)
+        {
+            transform.position = new Vector3(-3, transform.position.y, transform.position.z);
+        }
+        
         isGrounded = IsOnGround();
 
         float horzMove = Input.GetAxisRaw("Horizontal"); 

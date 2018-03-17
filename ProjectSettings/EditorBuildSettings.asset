@@ -8,3 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/1.unity
     guid: fa81b7e0e38814d4291e7269a75fafe3
+  - enabled: 1
+    path: Assets/2.unity
+    guid: 7fc933f67b7ee52459c92579c0415e4d
+  - enabled: 1
+    path: Assets/3.unity
+    guid: b9aaed3efd02f6a46abeb70184d06e79
+  - enabled: 1
+    path: Assets/4.unity
+    guid: bba15ecd697ef5145a150a4055e12fec
