@@ -24,10 +24,7 @@ public class CharController2D : MonoBehaviour {
         Instance = this;
     }
 
-    public static void Die()
-    {
-        Instance.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
-    }
+    
     void FixedUpdate()
     {
         if (transform.position.y < -2)//
@@ -116,5 +113,12 @@ public class CharController2D : MonoBehaviour {
             Die();
         }
 
+    }
+    public static void Die()
+    {
+        Instance.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+        RigidbodyConstraints2D rbc = new RigidbodyConstraints2D();
+        Instance.gameObject.GetComponent<Rigidbody2D>().constraints = rbc;
+        Instance.gameObject.GetComponent<Rigidbody2D>().AddTorque(1000f);
     }
 }
