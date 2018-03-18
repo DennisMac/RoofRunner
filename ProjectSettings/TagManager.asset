@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - background
+  - background2
   layers:
   - Default
   - TransparentFX
@@ -42,6 +43,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background2
+    uniqueID: 15493279
     locked: 0
   - name: Background
     uniqueID: 2776995633
