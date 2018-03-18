@@ -16,69 +16,81 @@ public class CharController2D : MonoBehaviour {
     private float jumpButtonPressTime;
     public float maxJumpTime = 0.2f;
     public Transform[] Feet;
+    public static bool isAlive = true;
 
     public static CharController2D Instance;
 
     void Start()
     {
+        isAlive = true;
         Instance = this;
         SoundManager.Instance.PlayOneShot(SoundManager.Instance.respawn);
     }
 
-    
-    void FixedUpdate()
-    {
-        if (transform.position.y < -2)//
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-        if (transform.position.x < -3)
-        {
-            transform.position = new Vector3(-3, transform.position.y, transform.position.z);
-        }
-        
-        isGrounded = IsOnGround();
-
-        float horzMove = Input.GetAxisRaw("Horizontal"); 
-        rbody.AddForce(new Vector2(horzMove * speed, 0) * Time.deltaTime);
-        if (horzMove > 0 && !facingRight)
-        {
-            FlipImage();
-        }
-        else if (horzMove < 0 && facingRight)
-        {
-            FlipImage();
-        }
-
-        isJumping = Input.GetAxis("Jump") > 0.1f && (jumpButtonPressTime < maxJumpTime);
-
-        if (isJumping)
-        {
-            if (isGrounded) SoundManager.Instance.PlayOneShot(SoundManager.Instance.jump);
-            rbody.velocity = new Vector2(rbody.velocity.x, jumpSpeed);
-        }
-
-        if (isGrounded)            
-        {
-            isJumping = false;
-            jumpButtonPressTime = 0f;
-        }
-        else
-        {
-            jumpButtonPressTime += Time.deltaTime;
-        }
-
-        animator.SetFloat("Speed", Mathf.Abs(rbody.velocity.x) * Time.deltaTime);
-        animator.SetBool("Jumping", isJumping || !isGrounded);
-
-    }
-
     void Awake()
     {
- 
+
         animator = GetComponent<Animator>();
         rbody = GetComponent<Rigidbody2D>();
     }
+
+
+    void FixedUpdate()
+    {
+
+        if (transform.position.y < -2)//
+        {
+            if (isAlive)
+            {
+                SoundManager.Instance.PlayOneShot(SoundManager.Instance.lose);
+            }
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        if (isAlive)
+        {
+            if (transform.position.x < -3)
+            {
+                transform.position = new Vector3(-3, transform.position.y, transform.position.z);
+            }
+
+            isGrounded = IsOnGround();
+
+            float horzMove = Input.GetAxisRaw("Horizontal");
+            rbody.AddForce(new Vector2(horzMove * speed, 0) * Time.deltaTime);
+            if (horzMove > 0 && !facingRight)
+            {
+                FlipImage();
+            }
+            else if (horzMove < 0 && facingRight)
+            {
+                FlipImage();
+            }
+
+            isJumping = Input.GetAxis("Jump") > 0.1f && (jumpButtonPressTime < maxJumpTime);
+
+            if (isJumping)
+            {
+                if (isGrounded) SoundManager.Instance.PlayOneShot(SoundManager.Instance.jump);
+                rbody.velocity = new Vector2(rbody.velocity.x, jumpSpeed);
+            }
+
+            if (isGrounded)
+            {
+                isJumping = false;
+                jumpButtonPressTime = 0f;
+            }
+            else
+            {
+                jumpButtonPressTime += Time.deltaTime;
+            }
+
+            animator.SetFloat("Speed", Mathf.Abs(rbody.velocity.x) * Time.deltaTime);
+            animator.SetBool("Jumping", isJumping || !isGrounded);
+
+        }
+    }
+
+   
 
     void FlipImage()
     {
@@ -117,12 +129,14 @@ public class CharController2D : MonoBehaviour {
     {
         if (coll.gameObject.tag == "Enemy")
         {
-            Die();
+                
+                Die();
         }
 
     }
     public static void Die()
     {
+        isAlive = false;
         SoundManager.Instance.PlayOneShot(SoundManager.Instance.lose);
         Instance.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
         RigidbodyConstraints2D rbc = new RigidbodyConstraints2D();

@@ -13,10 +13,13 @@ public class Manager : MonoBehaviour {
     {
         Instance = this;
         Ground.allColorChangers = new List<Ground>( FindObjectsOfType<Ground>());
+        Ground.total = Ground.allColorChangers.Count;
 	}
 
     public void LevelComplete()
     {
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.win);
+        MusicManager.Instance.SwapClip();
         levelCompleteText.SetActive(true);
         Time.timeScale = 0.01f;
         StartCoroutine(LevelComplete(0.03f));
