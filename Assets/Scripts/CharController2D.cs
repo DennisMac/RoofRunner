@@ -22,6 +22,7 @@ public class CharController2D : MonoBehaviour {
     void Start()
     {
         Instance = this;
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.respawn);
     }
 
     
@@ -53,6 +54,7 @@ public class CharController2D : MonoBehaviour {
 
         if (isJumping)
         {
+            if (isGrounded) SoundManager.Instance.PlayOneShot(SoundManager.Instance.jump);
             rbody.velocity = new Vector2(rbody.velocity.x, jumpSpeed);
         }
 
@@ -121,6 +123,7 @@ public class CharController2D : MonoBehaviour {
     }
     public static void Die()
     {
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.lose);
         Instance.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
         RigidbodyConstraints2D rbc = new RigidbodyConstraints2D();
         Instance.gameObject.GetComponent<Rigidbody2D>().constraints = rbc;
