@@ -13,15 +13,17 @@ public class CameraMove : MonoBehaviour {
 
     GameObject[] backgroundElements;
     GameObject[] backgroundElements2;
+    GameObject[] backgroundElements3;
+
     private Vector3 previousPosition;
 
-    public float parallax = 10f;
-
+    public float[] parallax = { 10f, 10f };
     void Start()
     {
         cameraTarget = GameObject.FindGameObjectWithTag("Player").transform;
         backgroundElements = GameObject.FindGameObjectsWithTag("background");
         backgroundElements2 = GameObject.FindGameObjectsWithTag("background2");
+        backgroundElements3 = GameObject.FindGameObjectsWithTag("background3");
         previousPosition = transform.position;
     }
 
@@ -35,17 +37,21 @@ public class CameraMove : MonoBehaviour {
 
 
             // parallax 
-            Vector3 movement = (transform.position - previousPosition) * 0.75f;
+            Vector3 movement = (transform.position - previousPosition);
            
             for (int i = 0; i < backgroundElements.Length; i++)
             {
-                backgroundElements[i].transform.position += movement;    
+                backgroundElements[i].transform.position += movement* parallax[0];    
             }
 
-            movement = (transform.position - previousPosition)*.5f;
             for (int i = 0; i < backgroundElements2.Length; i++)
             {
-                backgroundElements2[i].transform.position += movement;
+                backgroundElements2[i].transform.position += movement * parallax[1];
+            }
+
+            for (int i = 0; i < backgroundElements3.Length; i++)
+            {
+                backgroundElements3[i].transform.position += movement * parallax[2];
             }
 
             previousPosition = transform.position;
