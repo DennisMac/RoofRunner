@@ -31,7 +31,15 @@ public class Manager : MonoBehaviour {
         yield return new WaitForSeconds(waitTime);
         Time.timeScale = 1f;
         int nextScene = int.Parse(SceneManager.GetActiveScene().name) + 1;
-        SceneManager.LoadScene(nextScene.ToString());
+        if (nextScene == 11)
+        {
+            Time.timeScale *= 1.25f;
+            SceneManager.LoadScene("TitleScene");
+        }
+        else
+        {
+            SceneManager.LoadScene(nextScene.ToString());
+        }
     }
 
 }
